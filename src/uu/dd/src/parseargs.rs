@@ -748,7 +748,7 @@ pub fn parse_skip_amt(
 ) -> Result<Option<u64>, ParseError> {
     if let Some(amt) = matches.value_of(options::SKIP) {
         let n = parse_bytes_with_opt_multiplier(amt)?;
-        if iflags.skip_bytes {
+        if iflags.skip_bytes || amt.ends_with('B') {
             Ok(Some(n))
         } else {
             Ok(Some(*ibs as u64 * n))
@@ -766,7 +766,7 @@ pub fn parse_seek_amt(
 ) -> Result<Option<u64>, ParseError> {
     if let Some(amt) = matches.value_of(options::SEEK) {
         let n = parse_bytes_with_opt_multiplier(amt)?;
-        if oflags.seek_bytes {
+        if oflags.seek_bytes || amt.ends_with('B') {
             Ok(Some(n))
         } else {
             Ok(Some(*obs as u64 * n))
@@ -784,7 +784,7 @@ pub fn parse_iseek_amt(
 ) -> Result<Option<u64>, ParseError> {
     if let Some(amt) = matches.value_of(options::ISEEK) {
         let n = parse_bytes_with_opt_multiplier(amt)?;
-        if iflags.skip_bytes {
+        if iflags.skip_bytes || amt.ends_with('B') {
             Ok(Some(n))
         } else {
             Ok(Some(*ibs as u64 * n))
@@ -802,7 +802,7 @@ pub fn parse_oseek_amt(
 ) -> Result<Option<u64>, ParseError> {
     if let Some(amt) = matches.value_of(options::OSEEK) {
         let n = parse_bytes_with_opt_multiplier(amt)?;
-        if oflags.seek_bytes {
+        if oflags.seek_bytes || amt.ends_with('B') {
             Ok(Some(n))
         } else {
             Ok(Some(*obs as u64 * n))
@@ -816,7 +816,7 @@ pub fn parse_oseek_amt(
 pub fn parse_count(iflags: &IFlags, matches: &Matches) -> Result<Option<CountType>, ParseError> {
     if let Some(amt) = matches.value_of(options::COUNT) {
         let n = parse_bytes_with_opt_multiplier(amt)?;
-        if iflags.count_bytes {
+        if iflags.count_bytes || amt.ends_with('B') {
             Ok(Some(CountType::Bytes(n)))
         } else {
             Ok(Some(CountType::Reads(n)))
